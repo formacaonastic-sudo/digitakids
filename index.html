@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Digit@Kids</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+body{
+  font-family: 'Roboto', Arial, sans-serif;
+  margin:0;
+  padding:40px 20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  background: url('https://images.unsplash.com/photo-1593642634367-d91a135587b5?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+body::after{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.4);
+  z-index:0;
+  pointer-events:none;
+}
+
+h1{
+  color:#fff;
+  text-shadow:2px 2px 5px rgba(0,0,0,0.5);
+  text-align:center;
+  margin-bottom:30px;
+  z-index:1;
+  position:relative;
+  font-size:60px;
+  text-transform: uppercase;
+}
+h1 img{
+  height:130px;
+  vertical-align:middle;
+  margin-left:15px;
+  border-radius:10px;
+}
+
+#texto{
+  max-width:900px;
+  width:100%;
+  background:white;
+  padding:30px;
+  font-size:22px;
+  line-height:1.8;
+  border-radius:20px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
+  margin-bottom:25px;
+  min-height:220px;
+  overflow-y:auto;
+  z-index:1;
+  position:relative;
+}
+
+.correto{
+  color:#4CAF50;
+  animation: pulse 0.2s;
+}
+.errado{
+  color:#F44336;
+  background:#ffe5e5;
+  animation: shake 0.2s;
+}
+
+@keyframes pulse {0% { transform: scale(1);}50% { transform: scale(1.2);}100% { transform: scale(1);}}
+@keyframes shake {0% { transform: translateX(0);}25% { transform: translateX(-3px);}50% { transform: translateX(3px);}75% { transform: translateX(-3px);}100% { transform: translateX(0);}}
+
+#campo{
+  font-size:24px;     /* maior fonte */
+  font-weight:bold;    /* negrito */
+  padding:15px;
+  width:90%;
+  max-width:900px;
+  min-height:80px;
+  border-radius:15px;
+  border:2px solid #ccc;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+  outline:none;
+  transition:border-color 0.3s, box-shadow 0.3s;
+  resize: vertical;
+  background:#f9f9f9;
+  z-index:1;
+  position:relative;
+}
+#campo:focus{
+  border-color:#4CAF50;
+  box-shadow:0 0 12px rgba(76,175,80,0.4);
+}
+
+#info{
+  margin-top:20px;
+  font-size:18px;
+  color:#fff;
+  text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+  z-index:1;
+  position:relative;
+}
+
+button{
+  margin-top:25px;
+  padding:15px 30px;
+  font-size:30px;
+  cursor:pointer;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(90deg,#4CAF50,#81C784);
+  color:white;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.2s;
+  z-index:1;
+  position:relative;
+}
+button:hover{
+  background: linear-gradient(90deg,#43a047,#66BB6A);
+  transform:translateY(-2px);
+}
+
+#progresso{
+  margin-top:20px;
+  max-width:900px;
+  width:90%;
+  height:20px;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
+  z-index:1;
+  position:relative;
+}
+#barra{
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg,#4CAF50,#81C784);
+  transition: width 0.2s ease-in-out;
+}
+
+#rodape{
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 16px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  z-index: 2;
+}
+
+@media (max-width:600px){
+  h1{ font-size:40px; } 
+  #texto{ font-size:18px; padding:20px; min-height:160px;}
+  #campo{ font-size:20px; padding:12px; min-height:60px; width:95%;}
+}
+</style>
+</head>
+<body>
+
+<h1>DIGIT@KIDS <img src="crianca.png" alt="Criança a digitar"></h1>
+
+<div id="texto"></div>
+
+<textarea id="campo" placeholder="🖊️ Começa a digitar e diverte-te!"></textarea>
+
+<div id="info">
+Tempo: <span id="tempo">0</span>s | Erros: <span id="erros">0</span>
+</div>
+
+<div id="progresso"><div id="barra"></div></div>
+
+<button onclick="novoTexto()">NOVO TEXTO</button>
+
+<div id="rodape">Desenvolvido por professor Mário Menezes email: mario_menezes2009@edu.madeira.gov.pt</div>
+
+<script>
+const textos = [
+  "O João foi à escola numa manhã de primavera. Levava a mochila cheia de livros e lápis. A professora pediu aos alunos que escrevessem uma pequena história sobre o que gostam de fazer nos tempos livres. Alguns alunos falaram de futebol, outros de ler livros ou brincar no parque perto de casa. Todos tentaram escrever com atenção para não cometer erros.",
+  
+  "Na biblioteca da escola existem muitos livros interessantes. Os alunos gostam de entrar, escolher um livro e sentar-se em silêncio a ler. Ler ajuda a aprender palavras novas e a imaginar histórias diferentes. A professora diz sempre que quem lê muito escreve melhor e aprende mais depressa. Ler é divertido e ajuda a concentração.",
+  
+  "No recreio os alunos brincam, correm e conversam. Alguns gostam de jogar à bola, outros preferem conversar ou saltar à corda. O recreio é um momento importante do dia porque permite descansar um pouco antes de voltar às aulas e continuar a aprender coisas novas. É também uma forma de socializar e fazer amigos.",
+  
+  "A Marta gosta de desenhar no caderno durante o tempo livre. Ela escolhe cores vibrantes e cria imagens de animais, flores e paisagens. Muitas vezes mostra os seus desenhos aos colegas que ficam encantados. Desenhar ajuda a Marta a relaxar e também a desenvolver a criatividade e a coordenação motora.",
+  
+  "O Miguel aprendeu novas palavras lendo um livro sobre animais. Ele pratica a escrita e tenta lembrar-se de cada palavra corretamente. Ler e escrever ajuda o Miguel a comunicar melhor com os amigos e a professora, tornando o estudo mais divertido e interessante. A leitura desperta a imaginação e cria histórias na mente das crianças.",
+  
+  "No fim da manhã, a turma foi para o recreio. Alguns alunos jogavam à bola, outros corriam ou conversavam. O som das risadas enchia o pátio e todos se divertiam bastante. O recreio é um momento de alegria e descanso que prepara os alunos para continuarem a aprender com atenção nas aulas seguintes.",
+  
+  "O Pedro foi ao mercado com a mãe. Compraram frutas, legumes e pão fresco. O Pedro ajudou a escolher os melhores produtos e aprendeu o nome de cada fruta. No final, voltaram felizes para casa e o Pedro contou aos irmãos sobre tudo o que viu.",
+  
+  "A Ana gosta de plantar flores no jardim da escola. Ela rega as plantas todos os dias e observa como crescem. As flores deixam o jardim colorido e os colegas ficam encantados ao passar por lá. Plantar ajuda a Ana a aprender sobre a natureza e a paciência.",
+  
+  "O Tomás encontrou um passarinho ferido no jardim. Chamou a professora e juntos cuidaram dele até ele estar bem. Aprenderam que os animais precisam de cuidado e atenção. No dia seguinte, soltaram o passarinho e sentiram-se felizes por o ajudar.",
+  
+  "A Sofia gosta de contar histórias aos colegas. Ela inventa personagens e aventuras engraçadas. Todos escutam com atenção e riem bastante. Contar histórias ajuda a Sofia a desenvolver a imaginação e a melhorar a forma como comunica com os outros.",
+  
+  "Na aula de matemática, o professor explicou como somar números. Os alunos praticaram com lápis e papel, resolvendo exercícios simples. Aprender matemática ajuda a desenvolver o raciocínio e a pensar de forma lógica, tornando os desafios mais fáceis de entender.",
+  
+  "O Lucas fez uma experiência de ciência na escola. Misturou água com cores diferentes e observou o que acontecia. Ficou surpreso ao ver as cores misturarem-se formando novas tonalidades. A ciência ajuda a descobrir coisas novas e torna o estudo divertido.",
+  
+  "A Carla gosta de jogar xadrez com o avô. Aprende a pensar antes de fazer cada jogada. O jogo ensina paciência, estratégia e concentração. Ela sente-se orgulhosa quando consegue ganhar uma partida e percebe que estudar também exige prática e atenção.",
+  
+  "No parque, os amigos do Rui construíram um castelo de areia. Trabalharam juntos, usando baldes e pás. Cada um acrescentava detalhes e no final todos ficaram satisfeitos com a obra. Brincar e colaborar ajuda a desenvolver a criatividade e o espírito de equipa.",
+  
+  "A Inês foi à feira com os pais. Viu legumes, frutas e brinquedos. Comprou uma maçã e provou uma laranja. Experimentar novos sabores e aprender o nome dos alimentos ajuda a Inês a conhecer melhor o mundo à sua volta.",
+  
+  "O Miguel ajudou a mãe a arrumar a cozinha. Guardou os pratos, limpou a mesa e lavou os talheres. Sentiu-se útil e feliz por ter ajudado. Ajudar em casa é importante e ensina responsabilidade e organização desde cedo.",
+  
+  "Na aula de educação física, os alunos correram, saltaram e jogaram à bola. Todos se divertiram e aprenderam a trabalhar em equipa. O exercício físico é importante para manter o corpo saudável e também ajuda a concentrar-se melhor nas aulas seguintes.",
+  
+  "A Leonor adora observar os animais no quintal. Ela vê pássaros, gatos e cães. Aprende como cada um se comporta e gosta de escrever pequenas notas sobre o que observa. Observar e escrever ajuda a desenvolver atenção e curiosidade.",
+  
+  "O Tiago leu um livro sobre planetas. Aprendeu sobre a Terra, Marte e Júpiter. Ficou fascinado com os planetas e gostou de contar aos colegas o que descobriu. Ler sobre o espaço ajuda a conhecer o mundo e a expandir a imaginação.",
+  
+  "No aniversário da escola, os alunos cantaram, dançaram e comeram bolo. Foi um dia especial cheio de alegria e diversão. Celebrar momentos felizes ajuda a criar memórias boas e fortalece a amizade entre colegas."
+];
+
+let textoAtual = "";
+let inicio = null;
+let erros = 0;
+
+const textoDiv = document.getElementById("texto");
+const campo = document.getElementById("campo");
+const barra = document.getElementById("barra");
+
+function mostrarTexto(){
+  textoDiv.innerHTML = "";
+  for(let letra of textoAtual){
+    let span = document.createElement("span");
+    span.textContent = letra;
+    textoDiv.appendChild(span);
+  }
+}
+
+function atualizarProgresso(valor){
+  let perc = (valor/textoAtual.length)*100;
+  barra.style.width = perc+"%";
+}
+
+function novoTexto(){
+  textoAtual = textos[Math.floor(Math.random()*textos.length)];
+  erros = 0;
+  inicio = null;
+  campo.value="";
+  document.getElementById("erros").textContent = 0;
+  document.getElementById("tempo").textContent = 0;
+  atualizarProgresso(0);
+  mostrarTexto();
+  campo.focus();
+}
+
+campo.addEventListener("input",function(){
+  if(!inicio) inicio = new Date();
+  let valor = campo.value;
+  let spans = textoDiv.querySelectorAll("span");
+  erros = 0;
+  for(let i=0;i<spans.length;i++){
+    let letra = valor[i];
+    if(letra == null){
+      spans[i].className="";
+    } else if(letra === spans[i].textContent){
+      spans[i].className="correto";
+    } else{
+      spans[i].className="errado";
+      erros++;
+    }
+  }
+  document.getElementById("erros").textContent = erros;
+  atualizarProgresso(valor.length);
+
+  if(valor.length === textoAtual.length){
+    let tempo = Math.floor((new Date() - inicio)/1000);
+    document.getElementById("tempo").textContent = tempo;
+    alert("Texto concluído em "+tempo+" segundos com "+erros+" erros.");
+  }
+});
+
+setInterval(function(){
+  if(inicio){
+    let tempo = Math.floor((new Date() - inicio)/1000);
+    document.getElementById("tempo").textContent = tempo;
+  }
+},1000);
+
+novoTexto();
+</script>
+
+</body>
+</html>
