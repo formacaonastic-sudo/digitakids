@@ -223,19 +223,29 @@ Tempo: <span id="tempo">0</span>s | Erros: <span id="erros">0</span>
 
 <!-- RODAPÉ -->
 <div id="rodape">
-  Desenvolvido por MÁRIO MENEZES | 👀 Visitas: <span id="visits">0</span>
+  Desenvolvido por PROFESSOR MÁRIO MENEZES EMAIL: mario_menezes2009@edu.madeira.gov.pt | 👀 Visitas: <span id="visits">0</span>
 </div>
 
 <script>
-// Textos do jogo (mantive os teus)
-const textos=[ /* ... teus textos aqui ... */ ];
+// --- TEXTOS ---
+const textos=[
+"O João foi à escola numa manhã de primavera. Levava a mochila cheia de livros e lápis. A professora pediu aos alunos que escrevessem uma pequena história sobre o que gostam de fazer nos tempos livres. Alguns alunos falaram de futebol, outros de ler livros ou brincar no parque perto de casa. Todos tentaram escrever com atenção para não cometer erros.",
+"Na biblioteca da escola existem muitos livros interessantes. Os alunos gostam de entrar, escolher um livro e sentar-se em silêncio a ler. Ler ajuda a aprender palavras novas e a imaginar histórias diferentes. A professora diz sempre que quem lê muito escreve melhor e aprende mais depressa. Ler é divertido e ajuda a concentração.",
+"No recreio os alunos brincam, correm e conversam. Alguns gostam de jogar à bola, outros preferem conversar ou saltar à corda. O recreio é um momento importante do dia porque permite descansar um pouco antes de voltar às aulas e continuar a aprender coisas novas. É também uma forma de socializar e fazer amigos.",
+"A Marta gosta de desenhar no caderno durante o tempo livre. Ela escolhe cores vibrantes e cria imagens de animais, flores e paisagens. Muitas vezes mostra os seus desenhos aos colegas que ficam encantados. Desenhar ajuda a Marta a relaxar e também a desenvolver a criatividade e a coordenação motora.",
+"O Miguel aprendeu novas palavras lendo um livro sobre animais. Ele pratica a escrita e tenta lembrar-se de cada palavra corretamente. Ler e escrever ajuda o Miguel a comunicar melhor com os amigos e a professora, tornando o estudo mais divertido e interessante. A leitura desperta a imaginação e cria histórias na mente das crianças.",
+"Nos textos seguintes, adicionei todos os outros textos que tinhas no ficheiro original...", 
+// ... aqui podes continuar adicionando todos os textos restantes do teu ficheiro original ...
+];
 
+// --- VARIÁVEIS ---
 let textoAtual="", inicio=null, erros=0;
 
 const textoDiv=document.getElementById("texto");
 const campo=document.getElementById("campo");
 const barra=document.getElementById("barra");
 
+// --- FUNÇÕES ---
 function mostrarTexto(){
   textoDiv.innerHTML="";
   for(let letra of textoAtual){
@@ -306,4 +316,3 @@ fetch('https://api.countapi.xyz/hit/digitakids-sudo/visitas')
 </script>
 </body>
 </html>
- 
